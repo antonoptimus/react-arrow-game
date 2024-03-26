@@ -8,4 +8,6 @@ export interface PlaygroundStepsState {
 export interface PlaygroundState {
   currentStep: number
   steps: PlaygroundStepsState[]
+  totalSuccessful: number
+  totalUnsuccessful: number
 }

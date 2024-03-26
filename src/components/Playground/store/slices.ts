@@ -5,6 +5,8 @@ import { ARR_ARROW_KEYS } from "../constants"
 export const initialState: PlaygroundState = {
   currentStep: 0,
   steps: [],
+  totalSuccessful: 0,
+  totalUnsuccessful: 0,
 }
 
 export const playgroundSlice = createSlice({
@@ -35,11 +37,33 @@ export const playgroundSlice = createSlice({
             success: isSuccess,
           }
         }
-       }
+
+        if (isSuccess) {
+          state.totalSuccessful += 1
+        } else {
+          state.totalUnsuccessful += 1
+          state.totalSuccessful = 0
+        }
+      }
+    },
+    setUnsuccess: (state) => {
+      if (state.steps.length) {
+        const step = state.steps[state.currentStep - 1]
+
+        if (step.enteredValue == null) {
+          state.totalUnsuccessful += 1
+          state.totalSuccessful = 0
+
+          state.steps[state.currentStep - 1] = {
+            ...step,
+            success: false,
+          }
+        }
+      }
     },
   },
 })
 
-export const { setCurrentStep, setSteps, setEnteredValue } =
+export const { setCurrentStep, setSteps, setEnteredValue, setUnsuccess } =
   playgroundSlice.actions
 export const playgroundReducer = playgroundSlice.reducer
