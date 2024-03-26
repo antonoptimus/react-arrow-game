@@ -18,6 +18,7 @@ export const playgroundSlice = createSlice({
       const randomKeys = Math.floor(Math.random() * ARR_ARROW_KEYS.length)
       state.steps.push({
         currentValue: ARR_ARROW_KEYS[randomKeys],
+        enteredValue: null
       })
     },
   },

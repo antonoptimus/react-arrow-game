@@ -1,5 +1,6 @@
 export interface PlaygroundStepsState {
-  currentValue: string
+  currentValue: string | null
+  enteredValue: string | null
 }
 
 export interface PlaygroundState {
