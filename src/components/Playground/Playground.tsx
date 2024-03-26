@@ -2,17 +2,21 @@ import { useEffect, useRef, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { setCurrentStep, setSteps, setUnsuccess } from "./store/slices"
 import Controls from "./components/Controls"
-import { INTERVAL_TIME } from "./constants"
+import { END_GAME_CONDITIONS, INTERVAL_TIME } from "./constants"
 import RandomKeys from "./components/RandomKeys"
 import KeyPressed from "./components/KeyPressed"
 import Score from "./components/Score"
+import Modal from "./components/Modal"
 
 const Playground: React.FC = () => {
-  const { currentStep } = useAppSelector((state) => state.playground)
+  const { currentStep, totalSuccessful, totalUnsuccessful } = useAppSelector(
+    (state) => state.playground,
+  )
   const dispatch = useAppDispatch()
-
   const refreshIntervalId = useRef<ReturnType<typeof setInterval> | null>(null)
 
+  const [isShowModal, setIsShowModal] = useState<boolean>(false)
+  const [isSuccessEndGame, setIsSuccessEndGame] = useState<boolean>(false)
   const [isTimerActive, setIsTimerActive] = useState<boolean>(false)
 
   useEffect(() => {
@@ -31,6 +35,20 @@ const Playground: React.FC = () => {
     }
   }, [isTimerActive, dispatch])
 
+  useEffect(() => {
+    const isSuccessful = totalSuccessful === END_GAME_CONDITIONS.SUCCESS_COUNT
+    const isUnsuccessful =
+      totalUnsuccessful === END_GAME_CONDITIONS.UNSUCCESS_COUNT
+
+    isSuccessful && setIsSuccessEndGame(true)
+    isUnsuccessful && setIsSuccessEndGame(false)
+
+    if (isSuccessful || isUnsuccessful) {
+      setIsShowModal(true)
+      setIsTimerActive(false)
+    }
+  }, [totalSuccessful, totalUnsuccessful])
+
   return (
     <>
       {currentStep}
@@ -40,7 +58,13 @@ const Playground: React.FC = () => {
       />
       <RandomKeys isTimerActive={isTimerActive} />
       <KeyPressed isTimerActive={isTimerActive} />
-      <Score/>
+      <Score />
+      {isShowModal && (
+        <Modal
+          setIsShowModal={setIsShowModal}
+          isSuccessEndGame={isSuccessEndGame}
+        />
+      )}
     </>
   )
 }

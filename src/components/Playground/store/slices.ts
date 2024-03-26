@@ -61,9 +61,10 @@ export const playgroundSlice = createSlice({
         }
       }
     },
+    resetStore: () => initialState
   },
 })
 
-export const { setCurrentStep, setSteps, setEnteredValue, setUnsuccess } =
+export const { setCurrentStep, setSteps, setEnteredValue, setUnsuccess, resetStore } =
   playgroundSlice.actions
 export const playgroundReducer = playgroundSlice.reducer
