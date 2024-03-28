@@ -1,5 +1,5 @@
-// import styles from "./Score.module.css"
-
+import styles from "./Score.module.css"
+import { Chip, Stack } from "@mui/material"
 import { useAppSelector } from "../../../../app/hooks"
 import { TypographyHeader, TypographyText } from "../../../UI"
 
@@ -12,9 +12,27 @@ const Score: React.FC = () => {
       <TypographyText>
         On error, the "Consecutive successful hits" value is reset to zero
       </TypographyText>
-      <span>Successful: {state.totalSuccessful}</span>
-      <br />
-      <span>Error: {state.totalUnsuccessful}</span>
+
+      <Stack direction="row" spacing={1}>
+        <Chip
+          className={styles.chipSuccessful}
+          label={
+            <>
+              Successful: <span className={styles.counter}>{state.totalSuccessful}</span>
+            </>
+          }
+          variant="outlined"
+        />
+        <Chip
+          className={styles.chipUnsuccess}
+          label={
+            <>
+              Error: <span className={styles.counter}>{state.totalUnsuccessful}</span>
+            </>
+          }
+          variant="outlined"
+        />
+      </Stack>
     </>
   )
 }
