@@ -67,4 +67,5 @@ export const playgroundSlice = createSlice({
 
 export const { setCurrentStep, setSteps, setEnteredValue, setUnsuccess, resetStore } =
   playgroundSlice.actions
+  
 export const playgroundReducer = playgroundSlice.reducer
